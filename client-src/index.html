@@ -1,8 +1,8 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
   var socket = io('http://localhost:8080');
-  socket.on('news', function (data) {
-    console.log(data);
-    socket.emit('my other event', { my: 'data' });
+  socket.on('question', function (data) {
+    console.log("question", data);
+    socket.emit('answer', { value: 'A' });
   });
 </script>
