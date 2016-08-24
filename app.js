@@ -4,17 +4,25 @@ var fs = require('fs');
 
 app.listen(8080);
 
-function handler (req, res) {
-  fs.readFile(__dirname + '/client-src/index.html',
+function servePage(req, res, page) {
+  fs.readFile(__dirname + '/client-dist/' + page,
   function (err, data) {
     if (err) {
-      res.writeHead(500);
-      return res.end('Error loading index.html');
+      res.writeHead(404);
+      return res.end('Page Not Found');
     }
 
     res.writeHead(200);
     res.end(data);
   });
+}
+
+function handler (req, res) {
+  console.log(req.url)
+  if(req.url === '/client.js')
+    return servePage(req, res, 'client.js')
+
+  servePage(req, res, 'index.html')
 }
 
 var handleAnswer = function (data) {

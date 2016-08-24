@@ -1,8 +1,12 @@
-<script src="/socket.io/socket.io.js"></script>
-<script>
-  var socket = io('http://localhost:8080');
-  socket.on('question', function (data) {
-    console.log("question", data);
-    socket.emit('answer', { value: 'A' });
-  });
-</script>
+<body>
+  <div id="root" />
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io('http://localhost:8080');
+    socket.on('question', function (data) {
+      console.log("question", data);
+      socket.emit('answer', { value: 'A' });
+    });
+  </script>
+  
+</body>
