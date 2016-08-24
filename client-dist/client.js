@@ -29478,21 +29478,23 @@
 
 /***/ },
 /* 488 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	// import { API_CALL } from '../app/middleware/api'
+	exports.changeTeamName = exports.login = exports.appInit = exports.CHANGE_TEAM_NAME = exports.LOGIN_FAILURE = exports.LOGIN_SUCCESS = exports.LOGIN_REQUEST = exports.APP_INIT = undefined;
+
+	var _apimiddleware = __webpack_require__(494);
 
 	var APP_INIT = exports.APP_INIT = 'APP_INIT';
 	// export const LOGIN = 'LOGIN'
-	// export const LOGIN_REQUEST = 'LOGIN_REQUEST'
-	// export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
-	// export const LOGIN_FAILURE = 'LOGIN_FAILURE'
-	// export const CHANGE_TEAM_NAME = 'CHANGE_TEAM_NAME'
+	var LOGIN_REQUEST = exports.LOGIN_REQUEST = 'LOGIN_REQUEST';
+	var LOGIN_SUCCESS = exports.LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+	var LOGIN_FAILURE = exports.LOGIN_FAILURE = 'LOGIN_FAILURE';
+	var CHANGE_TEAM_NAME = exports.CHANGE_TEAM_NAME = 'CHANGE_TEAM_NAME';
 	// export const FETCH_TEAM_REQUEST = 'FETCH_TEAM_REQUEST'
 	// export const FETCH_TEAM_SUCCESS = 'FETCH_TEAM_SUCCESS'
 	// export const FETCH_TEAM_FAILURE = 'FETCH_TEAM_FAILURE'
@@ -29504,22 +29506,26 @@
 	  };
 	};
 
-	// export const login = (teamName) => ({
-	//   type: API_CALL,
-	//   endpoint: '/login',
-	//   method: 'post',
-	//   body: {
-	//     teamName
-	//   },
-	//   onRequest: LOGIN_REQUEST,
-	//   onSuccess: LOGIN_SUCCESS,
-	//   onFailure: LOGIN_FAILURE
-	// })
+	var login = exports.login = function login(teamName) {
+	  return {
+	    type: _apimiddleware.API_CALL,
+	    endpoint: '/login',
+	    method: 'post',
+	    body: {
+	      teamName: teamName
+	    },
+	    onRequest: LOGIN_REQUEST,
+	    onSuccess: LOGIN_SUCCESS,
+	    onFailure: LOGIN_FAILURE
+	  };
+	};
 
-	// export const changeTeamName = (teamName) => ({
-	//   type: CHANGE_TEAM_NAME,
-	//   teamName
-	// })
+	var changeTeamName = exports.changeTeamName = function changeTeamName(teamName) {
+	  return {
+	    type: CHANGE_TEAM_NAME,
+	    teamName: teamName
+	  };
+	};
 
 	// export const fetchTeam = () => ({
 	//   type: API_CALL,
@@ -29559,6 +29565,10 @@
 
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
+	var _apimiddleware = __webpack_require__(494);
+
+	var _apimiddleware2 = _interopRequireDefault(_apimiddleware);
+
 	var _reduxLogger = __webpack_require__(491);
 
 	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
@@ -29569,10 +29579,8 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	// import api from '../middleware/api'
 	// import localStorage from '../middleware/localStorage'
-	var finalCreateStore = (0, _redux.compose)((0, _redux.applyMiddleware)(_reduxThunk2.default,
-	// api,
+	var finalCreateStore = (0, _redux.compose)((0, _redux.applyMiddleware)(_reduxThunk2.default, _apimiddleware2.default,
 	// localStorage,
 	(0, _reduxLogger2.default)()))(_redux.createStore);
 
@@ -29798,12 +29806,19 @@
 
 	var _mainPage2 = _interopRequireDefault(_mainPage);
 
+	var _actions = __webpack_require__(488);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var MainPage = _react2.default.createClass({
 	  displayName: 'MainPage',
 
 	  render: function render() {
+	    var _this = this;
+
+	    var dispatch = this.props.dispatch;
+
+
 	    if (!this.props.token) return _react2.default.createElement(
 	      'div',
 	      { className: 'form' },
@@ -29818,7 +29833,9 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'col-sm-9' },
-	          _react2.default.createElement('input', { type: 'text', placeholder: 'Enter your team name here', name: 'username', className: 'form-control', value: this.props.teamName, onChange: this.teamNameChanged })
+	          _react2.default.createElement('input', { type: 'text', placeholder: 'Enter your team name here', name: 'username', className: 'form-control', value: this.props.teamName, onChange: function onChange(e) {
+	              return dispatch((0, _actions.changeTeamName)(e.target.value));
+	            } })
 	        )
 	      ),
 	      _react2.default.createElement(
@@ -29827,7 +29844,9 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'col-sm-offset-3 col-sm-9' },
-	          _react2.default.createElement('input', { className: 'btn', type: 'submit', value: 'Login', isActive: this.props.pending, onClick: this.handleSubmit })
+	          _react2.default.createElement('input', { className: 'btn', type: 'submit', value: 'Login', isActive: this.props.pending, onClick: function onClick() {
+	              return dispatch((0, _actions.login)(_this.props.teamName));
+	            } })
 	        )
 	      )
 	    );
@@ -29859,6 +29878,129 @@
 	    token: state.team.token
 	  };
 	};
+
+/***/ },
+/* 494 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	// require('es6-promise').polyfill()
+	// import 'isomorphic-fetch'
+	// import cookie from 'js-cookie'
+	// import ActionTypes from '../../actions/ActionTypes'
+	// import {ONLINE_MODE, OFFLINE_MODE} from '../actions'
+	// var Dispatcher = require('../../dispatcher/AdminAppDispatcher');
+	// var JWT_COOKIE = 'HubApiToken'
+	// import { authorisationFailed } from '../../auth/actions'
+
+	// const fullUrl = (url) => {
+	//   if (url.indexOf('http://') > -1)
+	//     return url
+	//   var baseUrl = document.getElementById('root').getAttribute('data-ApiBaseUrl');
+	//   return baseUrl + url
+	// }
+
+	// const headers = () => ({
+	//   'Accept':        'application/json',
+	//   'Content-Type':  'application/json',
+	//   'Authorization': 'Bearer ' + cookie.get(JWT_COOKIE)
+	// })
+
+	// const status = (response) =>{
+
+	//   if(response.status === 1223)//needed for IE9 only
+	//   {
+	//     response.statusText = "No Content"
+	//     response.status = 204
+	//     response.ok = true
+	//   }
+
+	//   return (response.ok)
+	//     ? Promise.resolve(response)
+	//     : Promise.reject(new Error(response.statusText))
+	// }
+
+	// const resolveEndpoint = (endpoint, store) => {
+	//   if (typeof endpoint === 'function')
+	//     endpoint = endpoint(store.getState())
+	//   if (typeof endpoint !== 'string')
+	//     throw new Error('Specify a string endpoint URL.')
+	//   return endpoint
+	// }
+
+	// const convertToJson = (response) => {
+	//   return (response.status === 204) ? {} : response.text().then((text) => {
+	//     try {
+	//       return JSON.parse(text)
+	//     } catch (e) {
+	//       return { data: text }
+	//     }
+	//   })
+	// }
+
+	var API_CALL = exports.API_CALL = 'API_CALL';
+	// export const USER_NOT_AUTHORISED = 'USER_NOT_AUTHORISED'
+
+	exports.default = function (store) {
+	  return function (next) {
+	    return function (action) {
+	      if (action.type !== API_CALL) return next(action);
+
+	      console.log("API_CALL", store, action);
+	    };
+	  };
+	};
+
+	//   let endpoint = resolveEndpoint(action.endpoint, store)
+
+	//   if (action.onRequest)
+	//     next({
+	//       type: action.onRequest,
+	//       request: action
+	//     })
+
+	//   return fetch(fullUrl(endpoint), {
+	//     method: action.method || 'get',
+	//     headers: headers(store),
+	//     body:    JSON.stringify(action.body),
+	//     credentials: 'include'
+	//   })
+	//   .then(status)
+	//   .then(convertToJson)
+	//   .then(json => {
+	//     if (action.onSuccess)
+	//     {
+	//       next({type: ONLINE_MODE, request:action})
+	//       next({
+	//         type: action.onSuccess,
+	//         response: json,
+	//         request: action
+	//       })
+	//     }
+	//   })
+	//   .catch(error => {
+	//     if (error.message === 'Unauthorized'){
+	//       Dispatcher.dispatch({ type: ActionTypes.USER_NOT_AUTHORISED, response: error.message })
+	//       next(authorisationFailed(error.message))
+	//     }
+
+	//     if (error.message === 'Failed to fetch'){
+	//       next({type: OFFLINE_MODE})
+	//     }
+
+	//     if (action.onFailure){
+	//       next({
+	//         type: action.onFailure,
+	//         error: error.message || 'Something bad happened',
+	//         request: action
+	//       })
+	//     }
+	//   })
+	// }
 
 /***/ }
 /******/ ]);
