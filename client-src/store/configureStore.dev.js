@@ -1,15 +1,17 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
-import api from '../apimiddleware'
-// import localStorage from '../middleware/localStorage'
 import createLogger from 'redux-logger'
 import rootReducer from '../reducers'
+import createSocketIoMiddleware from 'redux-socket.io';
+import io from 'socket.io-client';
+
+let socket = io('http://localhost:8080');
+let socketIoMiddleware = createSocketIoMiddleware(socket, "server/");
 
 const finalCreateStore = compose(
   applyMiddleware(
     thunk,
-    api,
-    // localStorage,
+    socketIoMiddleware,
     createLogger()
   )
 )(createStore)

@@ -32,4 +32,7 @@ var handleAnswer = function (data) {
 io.on('connection', function (socket) {
   socket.emit('question', { type: 'multiplechoice' });
   socket.on('answer', handleAnswer);
+  socket.on('action', (action) => {
+    console.log(action)
+  })
 });

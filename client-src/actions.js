@@ -1,10 +1,10 @@
-import { API_CALL } from './apimiddleware'
+// import { API_CALL } from './apimiddleware'
 
 export const APP_INIT = 'APP_INIT'
 // export const LOGIN = 'LOGIN'
-export const LOGIN_REQUEST = 'LOGIN_REQUEST'
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
-export const LOGIN_FAILURE = 'LOGIN_FAILURE'
+// export const LOGIN_REQUEST = 'LOGIN_REQUEST'
+// export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
+// export const LOGIN_FAILURE = 'LOGIN_FAILURE'
 export const CHANGE_TEAM_NAME = 'CHANGE_TEAM_NAME'
 // export const FETCH_TEAM_REQUEST = 'FETCH_TEAM_REQUEST'
 // export const FETCH_TEAM_SUCCESS = 'FETCH_TEAM_SUCCESS'
@@ -16,15 +16,10 @@ export const appInit = () => ({
 })
 
 export const login = (teamName) => ({
-  type: API_CALL,
-  endpoint: '/login',
-  method: 'post',
-  body: {
+  type: 'server/login',
+  data: {
     teamName
-  },
-  onRequest: LOGIN_REQUEST,
-  onSuccess: LOGIN_SUCCESS,
-  onFailure: LOGIN_FAILURE
+  }
 })
 
 export const changeTeamName = (teamName) => ({
