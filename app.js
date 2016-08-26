@@ -33,6 +33,9 @@ io.on('connection', function (socket) {
   socket.emit('question', { type: 'multiplechoice' });
   socket.on('answer', handleAnswer);
   socket.on('action', (action) => {
-    console.log(action)
+    if(action.type === 'server/login') {
+      console.log(action.data)
+      socket.emit('action', {type:'loggedin', data:'NEW-TOKEN'})
+    }
   })
 });

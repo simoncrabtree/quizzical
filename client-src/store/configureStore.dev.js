@@ -5,7 +5,7 @@ import rootReducer from '../reducers'
 import createSocketIoMiddleware from 'redux-socket.io';
 import io from 'socket.io-client';
 
-let socket = io('http://localhost:8080');
+let socket = io('http://Simons-MacBook-Pro.local:8080');
 let socketIoMiddleware = createSocketIoMiddleware(socket, "server/");
 
 const finalCreateStore = compose(

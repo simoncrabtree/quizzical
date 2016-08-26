@@ -29471,6 +29471,12 @@
 	        token: null
 	      });
 
+	    case 'loggedin':
+	      return _extends({}, state, {
+	        token: action.data,
+	        isLoggedIn: true
+	      });
+
 	    default:
 	      return state;
 	  }
@@ -29577,7 +29583,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var socket = (0, _socket2.default)('http://localhost:8080');
+	var socket = (0, _socket2.default)('http://Simons-MacBook-Pro.local:8080');
 	var socketIoMiddleware = (0, _reduxSocket2.default)(socket, "server/");
 
 	var finalCreateStore = (0, _redux.compose)((0, _redux.applyMiddleware)(_reduxThunk2.default, socketIoMiddleware, (0, _reduxLogger2.default)()))(_redux.createStore);

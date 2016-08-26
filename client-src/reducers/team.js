@@ -55,6 +55,13 @@ export default (state={isLoggingIn: false, isLoggedIn: false}, action) => {
         token: null
       }
 
+    case 'loggedin':
+      return {
+        ...state,
+        token: action.data,
+        isLoggedIn: true
+      }
+
     default:
       return state
   }
