@@ -1,13 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import mapStateToProps from './selectors/mainPage'
-import { login, changeTeamName } from './actions'
+import { login, changeTeamName, askQuestion } from './actions'
 
 const MainPage = React.createClass({
   render: function () {
     var {dispatch} = this.props
 
-    if(!this.props.token)
+    if(!this.props.isLoggedIn)
       return (
         <div className='form'>
           <div className='form-group'>
@@ -24,8 +24,21 @@ const MainPage = React.createClass({
         </div>
       )
 
+    if(this.props.isQuizmaster)
+      return (
+        <div>
+          <div>Quiz Master</div>
+          <div>Question</div>
+          <div>{this.props.nextQuestion.question}</div>
+          <button onClick={() => dispatch(askQuestion())}>Ask</button>
+        </div>
+      )
+
     return (
-      <div>Hello {this.props.teamName}</div>
+      <div>
+        <div>Hello {this.props.teamName}</div>
+        <div>{this.props.currentQuestion}</div>
+      </div>
     )
   }
 })

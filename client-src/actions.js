@@ -27,6 +27,10 @@ export const changeTeamName = (teamName) => ({
   teamName
 })
 
+export const askQuestion = () => ({
+	type: 'server/askQuestion'
+})
+
 // export const fetchTeam = () => ({
 //   type: API_CALL,
 //   endpoint: '/team',

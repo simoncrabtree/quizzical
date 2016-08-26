@@ -62,6 +62,20 @@ export default (state={isLoggingIn: false, isLoggedIn: false}, action) => {
         isLoggedIn: true
       }
 
+    case 'quizmasterLoggedIn':
+      return {
+        ...state,
+        isLoggedIn: true,
+        isQuizmaster: true,
+        nextQuestion: action.data.nextQuestion
+      }
+
+    case 'question':
+      return {
+        ...state,
+        currentQuestion: action.data.question
+      }
+
     default:
       return state
   }
